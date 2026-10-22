@@ -1,0 +1,7 @@
+.teaser-section figcaption {
+  margin-top: 1rem;
+  color: #657079;
+  font-size: var(--type-caption);
+  line-height: 1.6;
+  text-align: center;
+}
