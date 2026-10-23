@@ -3,14 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="One demonstration, seven real-world contact-rich manipulation tasks, and a policy built from environmental constraints.">
+  <meta name="description" content="A general policy for contact-rich manipulation from a single demonstration and a few corrections, built on environmental constraints and tested on seven real-world tasks.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://lfdec.github.io/">
   <meta property="og:title" content="From a Single Demonstration to a General Policy for Contact-Rich Manipulation">
-  <meta property="og:description" content="Environmental constraints let a robot generalize a single demonstration across seven real-world contact-rich manipulation tasks.">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:description" content="Environmental constraints separate a general policy template from instance-specific details, which compliant execution completes at run time. Tested on seven real-world contact-rich manipulation tasks.">
+  <meta property="og:image" content="https://lfdec.github.io/static/images/teaser-poster.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="Seven real-world contact-rich manipulation tasks from the LfDEC teaser">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="From a Single Demonstration to a General Policy for Contact-Rich Manipulation">
-  <meta name="twitter:description" content="One demonstration, seven real-world contact-rich manipulation tasks.">
+  <meta name="twitter:description" content="A general policy template plus instance-specific completion, tested on seven real-world contact-rich manipulation tasks.">
+  <meta name="twitter:image" content="https://lfdec.github.io/static/images/teaser-poster.jpg">
   <meta name="citation_title" content="From a Single Demonstration to a General Policy for Contact-Rich Manipulation">
   <meta name="citation_author" content="Li, Xing">
   <meta name="citation_author" content="Brock, Oliver">
@@ -25,10 +30,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700%7CNoto+Sans:400,600,700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/page.css?v=20261014-2">
-  <link rel="stylesheet" href="static/css/insights.css?v=6">
+  <link rel="stylesheet" href="static/css/page.css?v=20261023-2">
+  <link rel="stylesheet" href="static/css/insights.css?v=7">
   <link rel="stylesheet" href="static/css/teaser.css?v=1">
-  <script defer src="static/js/page.js?v=4"></script>
+  <script defer src="static/js/page.js?v=5"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,7 +49,7 @@
 <body>
   <main>
     <header class="page-header wrap">
-      <h1><span class="title-lead">From a Single Demonstration</span> <span class="title-detail">to a General Policy for Contact-Rich Manipulation</span></h1>
+      <h1><span class="title-lead">From a Single Demonstration to a General Policy</span> <span class="title-detail">for <span class="nobreak">Contact-Rich</span> Manipulation</span></h1>
       <p class="authors"><a href="https://www.linkedin.com/in/xing-li-tub/">Xing Li</a> <a href="https://www.tu.berlin/en/robotics/about-rbo/prof-dr-oliver-brock">Oliver Brock</a></p>
       <div class="institution-logos" aria-label="Institutions">
         <img class="logo-tu" src="static/images/logos/image2.png" width="662" height="155" alt="Technische Universität Berlin">
@@ -56,103 +61,99 @@
       <p class="venue">The International Journal of Robotics Research · 2026</p>
       <nav class="resource-links" aria-label="Paper resources">
         <a href="https://arxiv.org/pdf/2605.17601"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg>Paper</a>
-        <a href="https://arxiv.org/abs/2605.17601"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 18M5 21l6-8m2-2 6-8"/></svg>arXiv</a>
         <a href="https://github.com/tu-rbo/LfDEC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 16"/></svg>Code</a>
-        <a href="#tasks"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/></svg>Videos</a>
+        <a href="#cite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4H7zM7 11c0 3-1 5-3 6M15 7h4v4h-4zM15 11c0 3-1 5-3 6"/></svg>BibTeX</a>
       </nav>
     </header>
 
     <section class="teaser-section wrap reading-width" aria-label="Video overview">
       <figure>
         <div class="video-slot">
-          <video controls playsinline preload="none" poster="static/images/teaser-poster.jpg?v=9" aria-label="LfDEC teaser video: seven real-world contact-rich tasks, each learned from one demonstration, and the takeaways for robot learning researchers and robotics engineers">
+          <video controls playsinline preload="none" poster="static/images/teaser-poster.jpg?v=9" aria-label="LfDEC teaser video: seven real-world contact-rich manipulation tasks and the key ideas behind the method">
             <source src="static/videos/teaser.mp4?v=9" type="video/mp4">
             Your browser does not support embedded video. <a href="static/videos/teaser.mp4">Download the teaser video.</a>
           </video>
         </div>
-        <figcaption>Teaser (2 min): seven real-world tasks and the key ideas behind LfDEC.</figcaption>
+        <figcaption>2-minute teaser: the seven tasks, then the ideas behind them.</figcaption>
       </figure>
     </section>
 
-    <section class="section insights-section" id="insights" aria-labelledby="principle-heading">
-      <div class="wrap reading-width">
-        <article class="insight principle-insight">
-          <h2 id="principle-heading">Generalization requires separating general information from instance-specific details</h2>
-          <p>To achieve generalization, we separate generalizable information from instance-specific details. Learning should focus on the general parts, leaving the details to be resolved through sensory feedback during execution. This separation shifts the burden of handling instance-specific variations from learning to execution, which we believe is a principle for achieving generalization in robot learning.</p>
+    <section class="abstract-section wrap reading-width" aria-label="Abstract">
+      <p>We build a policy for multi-stage contact-rich manipulation from a single human demonstration. Environmental constraints are the inductive bias: they separate a general policy template, shared by all task instances, from instance-specific details such as poses and geometry, which compliant execution completes at run time. With self-guided augmentation and a few corrections, the policy generalizes to unseen poses and geometries on seven real-world tasks, with over 90% success.</p>
+    </section>
 
-          <div class="separation-diagram" role="group" aria-label="We learn general task structure and recover instance-specific details during execution.">
+    <section class="section section-muted experiments-section" id="tasks" aria-labelledby="tasks-heading">
+      <div class="wrap reading-width task-picker">
+        <h2 id="tasks-heading">Real-world contact-rich manipulation tasks</h2>
+        <p>Choose a task to watch its experiment video.</p>
+        <figure class="task-player">
+          <div class="video-slot"><video controls playsinline preload="none" poster="static/images/thumbs/extension-2.jpg" aria-label="Insertion puzzles video"><source src="static/videos/extension-2.mp4" type="video/mp4">Your browser does not support embedded video. <a href="static/videos/extension-2.mp4">Download the video.</a></video></div>
+          <figcaption class="task-now" aria-live="polite">Insertion puzzles <span>· Extension 2 · 6:05</span></figcaption>
+        </figure>
+        <ul class="task-list">
+          <li><button type="button" class="task" aria-pressed="true" data-src="static/videos/extension-2.mp4" data-poster="static/images/thumbs/extension-2.jpg" data-meta="Extension 2 · 6:05"><img src="static/images/thumbs/small/extension-2.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Insertion puzzles</span><span class="task-note">Demonstrated on one puzzle, tested on two unseen geometries</span></span><span class="task-length">6:05</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-5.mp4" data-poster="static/images/thumbs/extension-5.jpg" data-meta="Extension 5 · 4:37"><img src="static/images/thumbs/small/extension-5.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Door locks with keys</span><span class="task-note">Two locks, two poses each; the second lock needs two corrections</span></span><span class="task-length">4:37</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-7.mp4" data-poster="static/images/thumbs/extension-7.jpg" data-meta="Extension 7 · 4:51"><img src="static/images/thumbs/small/extension-7.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Coffee machine</span><span class="task-note">Varied machine poses</span></span><span class="task-length">4:51</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-9.mp4" data-poster="static/images/thumbs/extension-9.jpg" data-meta="Extension 9 · 12:19"><img src="static/images/thumbs/small/extension-9.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Latches</span><span class="task-note">The policy from Latch 1 on four latches, with one grasp demonstration per latch</span></span><span class="task-length">12:19</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-10.mp4" data-poster="static/images/thumbs/extension-10.jpg" data-meta="Extension 10 · 4:45"><img src="static/images/thumbs/small/extension-10.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Drawers with handles</span><span class="task-note">Two drawers with different handle rotations; varied poses</span></span><span class="task-length">4:45</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-11.mp4" data-poster="static/images/thumbs/extension-11.jpg" data-meta="Extension 11 · 10:17"><img src="static/images/thumbs/small/extension-11.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">Functional Manipulation Benchmark</span><span class="task-note">Square-circle insertion with varied plate poses and tilts; one correction</span></span><span class="task-length">10:17</span></button></li>
+          <li><button type="button" class="task" aria-pressed="false" data-src="static/videos/extension-13.mp4" data-poster="static/images/thumbs/extension-13.jpg" data-meta="Extension 13 · 8:25"><img src="static/images/thumbs/small/extension-13.jpg" width="320" height="180" alt="" loading="lazy"><span><span class="task-name">FurnitureBench</span><span class="task-note">One-leg assembly under large variations in object pose</span></span><span class="task-length">8:25</span></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section insights-section" id="method" aria-labelledby="method-heading">
+      <div class="wrap reading-width">
+        <h2 id="method-heading">How it works</h2>
+        <article class="insight principle-insight" aria-labelledby="principle-heading">
+          <h3 id="principle-heading">General policy template + instance-specific completion</h3>
+          <p>A policy generalizes when learning captures only what all task instances share, as a general policy template, and leaves what differs to be completed during execution.</p>
+
+          <div class="separation-diagram" role="group" aria-label="A general policy template is learned; instance-specific details are completed during execution.">
             <div class="separation-part learning-part">
               <p class="diagram-label">Learning</p>
-              <h3>General task structure</h3>
-              <span class="diagram-note">Shared across task instances</span>
+              <h4>General policy template</h4>
+              <span class="diagram-note">Constraint types and contact transitions, shared across task instances</span>
             </div>
             <div class="separation-connector" aria-hidden="true"><svg viewBox="0 0 40 24"><path d="M3 12h32m-8-8 8 8-8 8"/></svg></div>
             <div class="separation-part execution-part">
               <p class="diagram-label">Execution</p>
-              <h3>Instance-specific details</h3>
-              <span class="diagram-note">Adapted to the current instance</span>
+              <h4>Instance-specific completion</h4>
+              <span class="diagram-note">Poses, angles and geometry, recovered through compliance and sensory feedback</span>
             </div>
           </div>
         </article>
 
         <article class="insight constraints-insight" aria-labelledby="constraints-heading">
-          <h2 id="constraints-heading">Environmental constraints enable this separation in contact-rich manipulation</h2>
-          <p>We find that environmental constraints (ECs) enable this separation in contact-rich manipulation. An object’s articulation encodes its functionality and imposes constraints during interaction. Objects with the same functionality often share these constraints, while their geometric parameters vary. Learning should capture the shared constraints to transfer across object instances.</p>
+          <h3 id="constraints-heading">Environmental constraints are the inductive bias</h3>
+          <p>Objects built for the same function share the same constraints: drawers slide, handles turn, keys insert and then rotate. Their geometry differs, but the sequence of constraints and contact transitions is the same, so that is what we learn.</p>
 
           <figure class="insight-figure">
             <a href="static/images/drawer_demonstration_views.svg" target="_blank" rel="noopener" aria-label="View the full-size Cartesian-space and constraint-space interpretations of the demonstration">
               <img src="static/images/drawer_demonstration_views.svg" width="7771" height="3227" alt="Two views of a drawer-opening demonstration. On the left, Cartesian trajectories differ between drawers. On the right, both drawers share the same constraints and contact transitions. The drawer photographs in the center connect the two views." loading="lazy">
             </a>
-            <figcaption><strong>Left:</strong> We view the demonstration as a trajectory in Cartesian space, where the two drawers require different trajectories. <strong>Right:</strong> We view the demonstration as a sequence of constraints and contact transitions shared by both drawers.</figcaption>
+            <figcaption>One drawer-opening demonstration, seen two ways. <strong>Left:</strong> Cartesian trajectories, which differ between the two drawers. <strong>Right:</strong> constraints and contact transitions, which both drawers share.</figcaption>
           </figure>
 
-          <p>We leave instance-specific geometric details to compliant execution. Compliance automatically adapts the robot’s motion to the encountered constraints, and the resulting force–motion relationships reveal their underlying geometry. This balances general learning with adaptive execution.</p>
+          <p>The instance-specific details are completed at run time: a compliant controller lets the constraints guide the motion, and the resulting forces and motions reveal the geometry.</p>
 
-          <div class="example-slider" role="region" aria-roledescription="carousel" aria-label="Examples of compliant execution and online adaptation">
-            <script type="application/json" class="slider-data">[{"title": "Policy execution and online adaptation", "src": "static/videos/extension-15.mp4", "poster": "static/images/thumbs/extension-15.jpg"}, {"title": "Adaptation to modeling errors", "src": "static/videos/extension-8.mp4", "poster": "static/images/thumbs/extension-8.jpg"}]</script>
-            <article class="video-card example-slide" id="execution-example" role="group" aria-roledescription="slide" aria-label="Example 1 of 2">
-              <div class="video-slot"><video controls playsinline preload="none" poster="static/images/thumbs/extension-15.jpg" aria-label="policy execution and online adaptation video"><source src="static/videos/extension-15.mp4" type="video/mp4">Your browser does not support embedded video. <a href="static/videos/extension-15.mp4">Download the video.</a></video></div>
+          <div class="video-grid adaptation-grid">
+            <article class="video-card">
+              <div class="video-slot"><video controls playsinline preload="none" poster="static/images/thumbs/extension-15.jpg" aria-label="Online adaptation during execution video"><source src="static/videos/extension-15.mp4" type="video/mp4">Your browser does not support embedded video. <a href="static/videos/extension-15.mp4">Download the video.</a></video></div>
+              <h4>Online adaptation during execution <span>· 1:51</span></h4>
             </article>
-            <div class="example-controls" role="group" aria-label="Select an example">
-              <button type="button" class="example-arrow" data-example-step="-1" aria-label="Previous example" aria-controls="execution-example"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button>
-              <p class="example-counter" aria-live="polite" aria-atomic="true">Example 1 of 2</p>
-              <button type="button" class="example-arrow" data-example-step="1" aria-label="Next example" aria-controls="execution-example"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg></button>
-            </div>
+            <article class="video-card">
+              <div class="video-slot"><video controls playsinline preload="none" poster="static/images/thumbs/extension-8.jpg" aria-label="Adapting to a rotation axis that is 20 degrees and 10 cm off video"><source src="static/videos/extension-8.mp4" type="video/mp4">Your browser does not support embedded video. <a href="static/videos/extension-8.mp4">Download the video.</a></video></div>
+              <h4>Adapting to a 20°, 10 cm axis error <span>· 0:44</span></h4>
+            </article>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="section section-muted experiments-section" id="tasks" aria-labelledby="tasks-heading">
-      <div class="wrap reading-width">
-      <div class="section-heading">
-        <h2 id="tasks-heading">Generalization in the real world</h2>
-        <p>We demonstrate generalization across seven real-world contact-rich tasks, using a single demonstration for each task.</p>
-      </div>
-      <figure class="task-figure">
-        <img src="static/images/title_objects.jpg" width="2400" height="694" alt="Insertion puzzles, door locks, drawers, coffee machine, latches, Functional Manipulation Benchmark, and FurnitureBench tasks." fetchpriority="high">
-      </figure>
-
-      <div class="example-slider" data-counter-style="task" role="region" aria-roledescription="carousel" aria-label="Real-world experiment videos">
-        <script type="application/json" class="slider-data">[{"title": "Insertion puzzles", "src": "static/videos/extension-2.mp4", "poster": "static/images/thumbs/extension-2.jpg"}, {"title": "Door locks with keys", "src": "static/videos/extension-5.mp4", "poster": "static/images/thumbs/extension-5.jpg"}, {"title": "Coffee machine", "src": "static/videos/extension-7.mp4", "poster": "static/images/thumbs/extension-7.jpg"}, {"title": "Latches", "src": "static/videos/extension-9.mp4", "poster": "static/images/thumbs/extension-9.jpg"}, {"title": "Drawers with handles", "src": "static/videos/extension-10.mp4", "poster": "static/images/thumbs/extension-10.jpg"}, {"title": "Functional Manipulation Benchmark", "src": "static/videos/extension-11.mp4", "poster": "static/images/thumbs/extension-11.jpg"}, {"title": "FurnitureBench", "src": "static/videos/extension-13.mp4", "poster": "static/images/thumbs/extension-13.jpg"}]</script>
-        <article class="video-card example-slide" id="experiment-example" role="group" aria-roledescription="slide" aria-label="Insertion puzzles (1 of 7)">
-          <div class="video-slot"><video controls playsinline preload="none" poster="static/images/thumbs/extension-2.jpg" aria-label="insertion puzzles experiment video"><source src="static/videos/extension-2.mp4" type="video/mp4">Your browser does not support embedded video. <a href="static/videos/extension-2.mp4">Download the video.</a></video></div>
-        </article>
-        <div class="example-controls" role="group" aria-label="Select an experiment">
-          <button type="button" class="example-arrow" data-example-step="-1" aria-label="Previous experiment" aria-controls="experiment-example"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button>
-          <p class="example-counter" aria-live="polite" aria-atomic="true">Insertion puzzles (1 of 7)</p>
-          <button type="button" class="example-arrow" data-example-step="1" aria-label="Next experiment" aria-controls="experiment-example"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg></button>
-        </div>
-      </div>
-      </div>
-    </section>
-
-    <section class="section wrap code-section" id="code" aria-labelledby="code-heading">
-      <h2 id="code-heading">Try it out!</h2>
-      <p>We implement LfDEC in Isaac Lab / Newton to explore environmental constraints in simulation. After setup, a single command runs examples of grasping, drawer and door opening, peg insertion, and nut turning.</p>
-      <nav class="resource-links simulation-links" aria-label="Simulation resources">
-        <a href="https://github.com/tu-rbo/LfDEC">Code &amp; setup instructions ↗</a>
-      </nav>
+    <section class="section wrap reading-width code-section" id="code" aria-labelledby="code-heading">
+      <h2 id="code-heading">Run it in simulation</h2>
+      <p>LfDEC also runs in Isaac Lab / Newton. After setup, one command runs grasping, drawer and door opening, peg insertion and nut turning. <a href="https://github.com/tu-rbo/LfDEC">Setup instructions ↗</a></p>
       <div class="video-grid simulation-grid">
         <article class="video-card">
           <div class="video-slot"><video controls muted playsinline preload="none" poster="static/images/factory_peg_insert.jpg" aria-label="Factory peg insertion simulation"><source src="static/videos/factory_peg_insert.mp4" type="video/mp4"></video></div>
@@ -165,10 +166,25 @@
       </div>
     </section>
 
+    <section class="section section-muted cite-section" id="cite" aria-labelledby="cite-heading">
+      <div class="wrap reading-width">
+        <div class="cite-heading">
+          <h2 id="cite-heading">Cite</h2>
+          <button type="button" class="copy-button" data-copy-target="bibtex">Copy BibTeX</button>
+        </div>
+        <pre id="bibtex"><code>@article{li2026lfdec,
+  title   = {From a Single Demonstration to a General Policy
+             for Contact-Rich Manipulation},
+  author  = {Li, Xing and Brock, Oliver},
+  journal = {The International Journal of Robotics Research},
+  year    = {2026}
+}</code></pre>
+      </div>
+    </section>
+
     <footer class="footer">
-      <div class="wrap">
-      <p>© 2026 Xing Li and Oliver Brock</p>
-      <p>Page based on the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>, adapted from <a href="https://nerfies.github.io/">Nerfies</a>. Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+      <div class="wrap reading-width">
+        <p>© 2026 Xing Li and Oliver Brock · Text and figures under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
       </div>
     </footer>
   </main>
